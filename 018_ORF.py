@@ -38,7 +38,7 @@ for dna in dna_list:
 # Convert protein from a set to list of strings to allow output to be written in the correct form more efficiently.
 protein_orf = map(str, protein_orf)
 
+# Print and save the answer.
+print '\n'.join(protein_orf)
 with open('output/018_ORF.txt', 'w') as output_data:
-	output_data.write(protein_orf[0])
-	for protein in protein_orf[1:]:
-		output_data.write('\n'+protein)
+	output_data.write('\n'.join(protein_orf))
