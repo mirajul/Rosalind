@@ -10,11 +10,7 @@ URL: http://rosalind.info/problems/suff/
 
 from scripts import SuffixTree
 
-with open('data/rosalind_suff.txt') as input_data:
-	s = input_data.read().strip()
-
-# Most of the work is done in the Data Structures script.
-suff = SuffixTree(s)
-
-with open('output/074_SUFF.txt', 'w') as output_data:
-	output_data.write('\n'.join(suff.printEdges()))
+# Most of the work is done by the SuffixTree class in the Data Structures script.
+with open('data/rosalind_suff.txt') as input_data, open('output/074_SUFF.txt', 'w') as output_data:
+    s = input_data.read().strip()
+    output_data.write('\n'.join(SuffixTree(s).print_edges()))
