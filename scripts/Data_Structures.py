@@ -9,6 +9,7 @@ class SuffixTree(object):
         '''Initializes the suffix tree.'''
         self.nodes = [self.Node(None, 0)]
         self.edges = dict()
+        self.descendants_dict = dict()
         if type(word) == str:
             self.add_word(word)
 
@@ -97,6 +98,23 @@ class SuffixTree(object):
     def print_edges(self):
         '''Returns the string representations of the edges.'''
         return [self.word[i:j] for i, j in self.edges.values()]
+
+    def total_descendants(self, base_node):
+        '''Returns the total number of descendants of a given node.'''
+        if base_node not in self.descendants_dict:
+            self.descendants_dict[base_node] = len(base_node.children) + sum([self.total_descendants(c) for c in base_node.children])
+
+        return self.descendants_dict[base_node]
+
+    def node_word(self, end_node):
+        '''Returns the prefix of the suffix tree word up to a given node.'''
+        current_word = ''
+        while end_node.number != 0:
+            temp_indices = self.edges[(end_node.parent.number, end_node.number)]
+            current_word = self.word[temp_indices[0]:temp_indices[1]] + current_word
+            end_node = end_node.parent
+
+        return current_word.strip('$')
 
 
 class Trie(object):
