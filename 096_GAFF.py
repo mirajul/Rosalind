@@ -8,8 +8,6 @@ Rosalind #: 096
 URL: http://rosalind.info/problems/gaff/
 '''
 
-from scripts import BLOSUM62, ReadFASTA
-
 
 def global_alignment_affine_gap_penalty(v, w, scoring_matrix, sigma, epsilon):
     '''Returns the global alignment score of v and w with constant gap peantaly sigma subject to the scoring_matrix.'''
@@ -69,6 +67,7 @@ def global_alignment_affine_gap_penalty(v, w, scoring_matrix, sigma, epsilon):
     return max_score, v_aligned, w_aligned
 
 if __name__ == '__main__':
+    from scripts import BLOSUM62, ReadFASTA
 
     # Parse the two input protein strings.
     s, t = [fasta[1] for fasta in ReadFASTA('data/rosalind_gaff.txt')]
