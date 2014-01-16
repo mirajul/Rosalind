@@ -16,7 +16,9 @@ The top level directory contains problem solutions.
 
 Solutions from the main problem area, the bioinformatics stronghold, are named by the numerical order of which they appear on the Rosalind website and by their Rosalind ID.
 
-Solutions from the smaller problem areas (Armory, Python, and Textbook) are named starting with the location name, and are listed in numerical order by their problem ID.
+Solutions from the smaller problem areas (Armory, Algorithmic, Python, and Textbook) are named starting with the location name, and then listed in numerical order and problem ID.
+
+Note: The Algorithmic Heights problem area is currently in beta and only viewable to users who have completed at least 80% of all Rosalind problems.
 
 ***Scripts Directory***
 
@@ -26,6 +28,4 @@ The scripts directory contains scripts for various processes which appear in mul
 
 The data and output directories hold text files containing the data for each problem supplied by Rosalind, and the associated output from my solutions.  
 
-Data and output from the smaller problem areas (Armory, Python, and Textbook) are stored in subfolders. 
-
-Some early problems do not have output files, as the solutions are very short and easy to copy.
+Data and output from the smaller problem areas (Armory, Algorithmic, Python, and Textbook) are stored in subfolders. 
