@@ -8,37 +8,46 @@ Rosalind #: 086
 URL: http://rosalind.info/problems/pdpl/
 '''
 
-from math import sqrt
+from collections import Counter
 
-with open('data/rosalind_pdpl.txt') as input_data:
-	deltaX = map(int,input_data.read().strip().split())
 
-# Write n choose 2 as a quadratic, solve for n in terms of length with the quadratic formula.
-# This tells us how many items we need in our multiset.
-n = int(0.5 + 0.5*sqrt(8.0*len(deltaX)+1))
+def partial_digest(distances):
+    '''Returns a set whose positive pairwise differences generate 'distances'.'''
+    # Initialize variables.
+    X = {0}
+    width = max(distances)
 
-# Pick zero to be the in our multiset.  This is a valid assumption because there are infinitely many solutions.
-# Given a solution, shifting each element by a fixed amount doesn't change the delta. Thus, there exists a solution with zero in the set.
-myX=[0]
+    # Create lambda functions for multiset operations.
+    new_dist = lambda y, S: Counter(abs(y-s) for s in S)
+    containment = lambda a, b: all(a[x] <= b[x] for x in a)
 
-# Add the largest delta to the solution. Since zero is in our multiset, the only way for it to be the largest difference if it's in the multiset.
-myX.append(max(deltaX))
-deltaX.remove(myX[1])
+    # Create the multiset which generates 'distances'.
+    while len(distances) > 0:
+        y = max(distances)
+        if containment(new_dist(y, X), distances):
+            X |= {y}
+            distances -= new_dist(y, X)
+        else:
+            X |= {width - y}
+            distances -= new_dist(width - y, X)
 
-# The other values in the multiset must come from deltaX, since zero is in our multiset.
-deltaSet = set(deltaX)
-for candidate in deltaSet:
-	# Test to see if each difference for a candidate member is our list of desired differences.
-	if sum([(abs(candidate-member) in deltaX) for member in myX])  == len(myX):
-		for member in myX:
-			# Remove the differences we've already found.
-			deltaX.remove(abs(candidate-member))
-		# insert the new value before the largest value to keep the set sorted.
-		myX.append(candidate)
-		if len(myX) == n:
-			break
+    return X
 
-myX.sort()
-print ' '.join(map(str, myX))
-with open('output/086_PDPL.txt', 'w') as output_file:
-	output_file.write(' '.join(map(str, myX)))
+
+def main():
+    '''Main call. Reads, runs, and saves problem specific data.'''
+    # Read the input data.
+    with open('data/rosalind_pdpl.txt') as input_data:
+        distances = Counter(map(int,input_data.read().strip().split()))
+
+    # Get the partial digest.
+    X = sorted(list(partial_digest(distances)))
+
+    # Print and save the answer.
+    print ' '.join(map(str, X))
+    with open('output/086_PDPL.txt', 'w') as output_data:
+        output_data.write(' '.join(map(str, X)))
+
+
+if __name__ == '__main__':
+    main()
