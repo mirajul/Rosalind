@@ -14,7 +14,7 @@ def binary_search(A, to_find, start_index=None, stop_index=None):
     '''Performs a binary search on the sorted array A to return the index of to_find, or -1 if not present.'''
 
     start_index = 0 if start_index is None else start_index
-    stop_index = len(A) if stop_index is None else stop_index
+    stop_index = len(A)-1 if stop_index is None else stop_index
 
     if stop_index < start_index:
         # The desired value is not present if we no longer have a region to search.
