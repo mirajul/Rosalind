@@ -18,8 +18,6 @@ Solutions from the main problem area, the bioinformatics stronghold, are named b
 
 Solutions from the smaller problem areas (Armory, Algorithmic, Python, and Textbook) are named starting with the location name, and then listed in numerical order and problem ID.
 
-Note: The Algorithmic Heights problem area is currently in beta and only viewable to users who have completed at least 80% of all Rosalind problems.
-
 ***Scripts Directory***
 
 The scripts directory contains scripts for various processes which appear in multiple Rosalind problems but are not solutions to actual problems.
