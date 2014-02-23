@@ -15,7 +15,7 @@ from Textbook_03D import score
 
 def profile_with_pseudocounts(motifs):
     '''Returns the profile of the dna list motifs.'''
-    columns = (''.join([motifs[j][i] for j in xrange(len(motifs))]) for i in xrange(len(motifs[0])))
+    columns = [''.join(seq) for seq in zip(*motifs)]
     return [[float(col.count(nuc)+1) / float(len(col)+4) for nuc in 'ACGT'] for col in columns]
 
 
@@ -48,7 +48,7 @@ def main():
     # Read the input data.
     with open('data/textbook/rosalind_3e.txt') as input_data:
         k, t = map(int, input_data.readline().split())
-        dna_list = [line.strip() for line in input_data.readlines()]
+        dna_list = [line.strip() for line in input_data]
 
     # Run the Greedy Motif Search with Pseudocounts.
     best_motifs = greedy_motif_search_pseudocounts(dna_list, k, t)
