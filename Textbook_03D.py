@@ -14,14 +14,14 @@ from Textbook_03C import profile_most_probable_kmer
 
 def score(motifs):
     '''Returns the score of the given list of motifs.'''
-    columns = (''.join([motifs[j][i] for j in xrange(len(motifs))]) for i in xrange(len(motifs[0])))
-    max_count = sum(max([c.count(nucleotide) for nucleotide in 'ACGT']) for c in columns)
+    columns = [''.join(seq) for seq in zip(*motifs)]
+    max_count = sum([max([c.count(nucleotide) for nucleotide in 'ACGT']) for c in columns])
     return len(motifs[0])*len(motifs) - max_count
 
 
 def profile(motifs):
     '''Returns the profile of the dna list motifs.'''
-    columns = (''.join([motifs[j][i] for j in xrange(len(motifs))]) for i in xrange(len(motifs[0])))
+    columns = [''.join(seq) for seq in zip(*motifs)]
     return [[float(col.count(nuc)) / float(len(col)) for nuc in 'ACGT'] for col in columns]
 
 
@@ -54,7 +54,7 @@ def main():
     # Read the input data.
     with open('data/textbook/rosalind_3d.txt') as input_data:
         k, t = map(int, input_data.readline().split())
-        dna_list = [line.strip() for line in input_data.readlines()]
+        dna_list = [line.strip() for line in input_data]
 
     # Run the Greedy Motif Search.
     best_motifs = greedy_motif_search(dna_list, k, t)
