@@ -12,15 +12,13 @@ URL: http://rosalind.info/problems/maj/
 
 def majority_element(a):
     '''Uses Moore's Voting Algorithm to determine the majority element of an array a, if it exists.'''
-    # Iniditalize the candidate and count.
-    candidate = a[0]
-    count = 1
-    # Run through the array, incrementing the count and changing candidates as necessary.
-    for i in xrange(1, len(a)):
-        count += [-1, 1][a[i] == candidate]
+    # Initialize the candidate element and count.
+    candidate, count = a[0], 0
+    # Run through the list, updating the count and changing candidates as necessary.
+    for element in a:
+        count += [-1, 1][element == candidate]
         if count == 0:
-            candidate = a[i]
-            count = 1
+            candidate, count = element, 1
 
     # Check if the candidate is indeed the majority element, returning the appropriate result.
     return [-1, candidate][a.count(candidate) > len(a)/2]
