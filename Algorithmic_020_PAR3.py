@@ -11,7 +11,7 @@ URL: http://rosalind.info/problems/par3/
 
 
 def three_way_partition(a):
-    '''Performs a 2-way partition on the array a.'''
+    '''Performs a 3-way partition on the array a.'''
     # Trivial with list comprehensions.
     return [x for x in a if x < a[0]] + [a[0]]*a.count(a[0]) + [x for x in a if x > a[0]]
 
