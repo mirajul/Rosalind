@@ -7,29 +7,25 @@ Rosalind ID: GC
 Rosalind #: 005
 URL: http://rosalind.info/problems/gc/
 '''
-
 from scripts import ReadFASTA
 
-# Our data is in FASTA form.
-dna_list = ReadFASTA('data/rosalind_gc.txt')
 
-highest_GC = -1
-highest_GC_name = ''
-for index, dna_seq in enumerate(dna_list):
-    GC_count = 0
-    for nucleotide in dna_seq[1]:
-        if nucleotide == 'G' or nucleotide == 'C':
-            GC_count += 1
-            
-    GC_amount = ( (GC_count*100.0)/len(dna_seq[1]) )
-    if GC_amount > highest_GC:
-        highest_GC = GC_amount
-        highest_GC_name = dna_list[index][0]
+def max_gc_content(seq_list):
+    gc_content = lambda seq: sum([100.0 for base in seq if base in ('G', 'C')])/len(seq)  # 100 to scale result to %.
+    gc_list = [[seq_name, gc_content(seq)] for seq_name, seq in seq_list]
+    return max(gc_list, key=lambda x: x[1])
 
 
-# Print the solution.
-print highest_GC_name, '\n', highest_GC
+def main():
+    '''Main call. Parses, runs, and saves problem specific data.'''
+    # Parse the input data.
+    seq_list = ReadFASTA('data/rosalind_gc.txt')
+    highest_gc = map(str, max_gc_content(seq_list))
 
-# Write the solution to a text file.
-with open('output/005_GC.txt', 'w') as output_data:
-	output_data.writelines([str(highest_GC_name),'\n', str(highest_GC)])
+    # Print and save the answer.
+    print '\n'.join(highest_gc)
+    with open('output/005_GC.txt', 'w') as output_data:
+        output_data.write('\n'.join(highest_gc))
+
+if __name__ == '__main__':
+    main()
