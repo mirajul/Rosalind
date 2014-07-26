@@ -17,20 +17,14 @@ def RNA_to_DNA(rna):  # Kind of pointless, as it's so simple.
 
 def ReverseComplementDNA(dna):
     '''Returns the reverse complement of a given DNA strand.'''
-    nucleotide = 'ATCG'
-    complement = 'TAGC'
-    transtab = maketrans(nucleotide, complement)
-
-    return dna.translate(transtab)[::-1].lstrip()
+    transtab = maketrans('ATCG', 'TAGC')
+    return dna.translate(transtab)[::-1]
 
 
 def ReverseComplementRNA(rna):
     '''Returns the reverse complement of a given RNA strand.'''
-    nucleotide = 'AUCG'
-    complement = 'UAGC'
-    transtab = maketrans(nucleotide, complement)
-
-    return rna.translate(transtab)[::-1].lstrip()
+    transtab = maketrans('AUCG', 'UAGC')
+    return rna.translate(transtab)[::-1]
 
 
 def HammingDistance(seq1, seq2):
