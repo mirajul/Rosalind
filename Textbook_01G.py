@@ -51,7 +51,6 @@ def main():
     with open('data/textbook/rosalind_1g.txt') as input_data:
         seq = input_data.readline().strip()
         k, d = map(int, input_data.read().strip().split())
-        k, d = 12, 3
 
     # Get the most frequent k-mers with up to d mismatches.
     most_freq_kmers = freq_words_with_mismatches(seq, k, d)
