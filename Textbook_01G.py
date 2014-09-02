@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 A solution to a code challenges that accompanies Bioinformatics Algorithms: An Active-Learning Approach by Phillip Compeau & Pavel Pevzner.
 The textbook is hosted on Stepic and the problem is listed on ROSALIND under the Textbook track.
 
@@ -7,62 +7,59 @@ Problem Title: Frequent Words with Mismatches Problem
 Chapter #: 01
 Problem ID: G
 URL: http://rosalind.info/problems/1g/
-'''
+"""
 
-from itertools import combinations
-
-def MismatchList(kmer, d):
-	'''Returns a list of all k-mers that mismatch a given k-mer by at most d characters.'''
-	kmer_mismatches = [kmer]
-	for i in xrange(1,d+1):
-		# Each combination gives the indicies we want to mismatch.
-		kmer_mismatches += CreateMismatches([[kmer, list(combo)] for combo in combinations(range(len(kmer)),i)])
-	return kmer_mismatches
+from collections import defaultdict
+from itertools import combinations, product, izip
 
 
-def CreateMismatches(swap_list):
-	'''Generates k-mer mismatches by replacing the characters at given indicies with mismatching characters.'''
-	nucleotides = 'ACGT'
-	mismatch_list = []
-	# Swap the i-th character of string with the character ch.
-	swap = lambda string, ch, i: string[:index]+ch+string[index+1:]
+def freq_words_with_mismatches(seq, k, d):
+    """Returns all most frequent k-mers with up to d mismatches in the dna sequence seq."""
+    # Frequency analysis so we don't generate mismatches for the same k-mer more than once.
+    kmer_freq = defaultdict(int)
+    for i in xrange(len(seq)-k+1):
+        kmer_freq[seq[i:i+k]] += 1
 
-	# If we have more than one index left to mismatch, repeat the process.
-	if len(swap_list[0][1]) > 1:
-		for kmer, indicies in swap_list:
-			index = indicies[0]
-			for nuc in filter(lambda n: n != kmer[index], nucleotides):
-				mismatch_list.append([swap(kmer, nuc, index), indicies[1:]])
-		
-		return CreateMismatches(mismatch_list)
-	
-	# Otherwise, on the final mismatch return the list of k-mers.
-	else:
-		for kmer, [index] in swap_list:
-			for nuc in filter(lambda n: n != kmer[index], nucleotides):
-				mismatch_list.append(swap(kmer, nuc, index))
-		
-		return mismatch_list
+    # Get all of the mismatches for each unique k-mer in the sequence, appearing freq times.
+    mismatch_count = defaultdict(int)
+    for kmer, freq in kmer_freq.iteritems():
+        for mismatch in kmer_mismatches(kmer, d):
+            mismatch_count[mismatch] += freq
 
+    # Computing the maximum value is somewhat time consuming to repeat, so only do it once!
+    max_count = max(mismatch_count.values())
+    return sorted([kmer for kmer, count in mismatch_count.iteritems() if count == max_count])
+
+
+def kmer_mismatches(kmer, d):
+    """Returns all k-mers that are within d mismatches of the given k-mer."""
+    mismatches = [kmer]  # Initialize mismatches with the k-mer itself (i.e. d=0).
+    alt_bases = {'A':'CGT', 'C':'AGT', 'G':'ACT', 'T':'ACG'}
+    for dist in xrange(1, d+1):
+        for change_indices in combinations(xrange(len(kmer)), dist):
+            for substitutions in product(*[alt_bases[kmer[i]] for i in change_indices]):
+                new_mistmatch = list(kmer)
+                for idx, sub in izip(change_indices, substitutions):
+                    new_mistmatch[idx] = sub
+                mismatches.append(''.join(new_mistmatch))
+    return mismatches
+
+
+def main():
+    """Main call. Parses, runs, and saves problem specific data."""
+    # Read the input data.
+    with open('data/textbook/rosalind_1g.txt') as input_data:
+        seq = input_data.readline().strip()
+        k, d = map(int, input_data.read().strip().split())
+        k, d = 12, 3
+
+    # Get the most frequent k-mers with up to d mismatches.
+    most_freq_kmers = freq_words_with_mismatches(seq, k, d)
+
+    # Print and save the answer.
+    print ' '.join(most_freq_kmers)
+    with open('output/textbook/Textbook_01G.txt', 'w') as output_data:
+        output_data.write(' '.join(most_freq_kmers))
 
 if __name__ == '__main__':
-
-	with open('data/textbook/rosalind_1g.txt') as input_data:
-		dna, [k, d] = [line.strip() if index == 0 else map(int, line.strip().split()) for index, line in enumerate(input_data.readlines())]
-
-	# Count the occurence of each k-mer with up to d mismatches in a dictionary.
-	mismatch_dict = {}
-	for i in xrange(len(dna)-k+1):
-		for kmer in MismatchList(dna[i:i+k], d):
-			if kmer in mismatch_dict:
-				mismatch_dict[kmer] += 1
-			else:
-				mismatch_dict[kmer] = 1
-
-	# Computing the maximum value is somewhat time consuming to repeat, so only do it once!
-	max_val = max(mismatch_dict.values())
-	kmers = [item[0] for item in mismatch_dict.items() if item[1] == max_val]
-
-	print ' '.join(kmers)
-	with open('output/textbook/Textbook_01G.txt', 'w') as output_data:
-		output_data.write(' '.join(kmers))
+    main()
