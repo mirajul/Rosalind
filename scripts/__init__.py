@@ -4,7 +4,7 @@ Scripts for functions common to multiple ROSALIND bioinformatics problems.
 '''
 
 from Data_Structures import SuffixTree
-from DNA_RNA_Operations import DNA_to_RNA, RNA_to_DNA, HammingDistance, ReverseComplementDNA, ReverseComplementRNA
+from DNA_RNA_Operations import DNA_to_RNA, RNA_to_DNA, hamming_distance, ReverseComplementDNA, ReverseComplementRNA
 from FASTA import ReadFASTA
 from generalized_suffix_tree import GeneralizedSuffixTree
 from Newick_Trees import Newick, WeightedNewick

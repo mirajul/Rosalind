@@ -1,6 +1,11 @@
 #!/usr/bin/env python
-'''ROSALIND bioinformatics scripts that returns that operate on DNA and RNA.'''
+"""
+ROSALIND bioinformatics scripts for DNA and RNA sequences.
+Not necessarily solutions to entire problems, but small things
+that appear in multiple problems.
+"""
 
+from itertools import imap
 from operator import ne
 from string import maketrans
 
@@ -27,8 +32,8 @@ def ReverseComplementRNA(rna):
     return rna.translate(transtab)[::-1]
 
 
-def HammingDistance(seq1, seq2):
+def hamming_distance(seq1, seq2):
     'Returns the Hamming distance between equal-length sequences.'
     if len(seq1) != len(seq2):
         raise ValueError('Undefined for sequences of unequal length.')
-    return sum(map(ne, seq1, seq2))
+    return sum(imap(ne, seq1, seq2))
