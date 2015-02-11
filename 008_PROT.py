@@ -28,7 +28,7 @@ def rna_to_protein(rna):
 def main():
     """Main call. Parses, runs, and saves problem specific data."""
     # Read the input data.
-    with open('data/rosalind_prot.txt') as input_data:
+    with open('data/bp.txt') as input_data:
         s = input_data.read().strip()
 
     # Get the translated protein.
@@ -36,7 +36,7 @@ def main():
 
     # Print and save the answer.
     print protein_output
-    with open('output/008_PROT.txt', 'w') as output_data:
+    with open('output/bp.txt', 'w') as output_data:
         output_data.write(protein_output)
 
 if __name__ == '__main__':
